@@ -1,0 +1,29 @@
+org: johnnymoreira
+app: bank-api
+service: sls-bank-js
+frameworkVersion: '3'
+
+package:
+  excludeDevDependencies: true
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+provider:
+  name: aws
+  region: us-east-1
+  runtime: nodejs14.x
+  timeout: 10
+
+functions:
+
+  authorize:
+    handler: functions/authorize.handler
+
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
