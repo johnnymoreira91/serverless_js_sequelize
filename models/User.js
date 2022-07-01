@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const database = require('./BaseModel');
-const sequelize = require('./BaseModel')
+const bcrypt = require('bcryptjs')
+const Permission = require('./Permission');
 
 class User extends Model { }
 
@@ -11,6 +12,10 @@ User.init(
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
+    },
+    userId: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     firstName: {
       type: DataTypes.STRING,
@@ -55,5 +60,19 @@ User.init(
     timestamps: true
   }
 )
+
+Permission.hasMany(User, {
+  foreignKey: 'level',
+  as: 'Permission'
+})
+
+User.addHook(
+  'beforeSave',
+  async (user) => {
+    if (user.password) {
+      user.passwordHash = await bcrypt.hash(user.password, 8);
+    }
+  }
+);
 
 module.exports = User
