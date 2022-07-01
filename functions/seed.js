@@ -1,4 +1,5 @@
 "use strict";
+const Address = require('../models/Address');
 const database = require('../models/BaseModel');
 const Permission = require('../models/Permission');
 const Status = require('../models/Status');
@@ -8,9 +9,10 @@ module.exports.handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false
   try {
     // await database.connection.query(`CREATE DATABASE ourBank2;`)
-    await database.connection.drop()
+    await database.connection.drop({force: true})
     await database.connection.sync()
     await Permission.sync()
+    await Address.sync({force: true})
     await User.sync({force: true})
     await Status.sync()
 
@@ -48,7 +50,7 @@ module.exports.handler = async (event, context) => {
       lastName: 'Moreira',
       email: 'johnnymoreira91@hotmail.com',
       password: 'teste',
-      level: 1,
+      permissionLevel: 1,
       username: 'teste'
     })
 

@@ -1,9 +1,10 @@
 const { DataTypes, Model } = require('sequelize');
 const database = require('./BaseModel');
+const User = require('./User');
 
-class Permission extends Model { }
+class Address extends Model { }
 
-Permission.init(
+Address.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,14 +12,21 @@ Permission.init(
       autoIncrement: true,
       primaryKey: true
     },
-    name: {
+    zipcode: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    level: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
+    street: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    number: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    complement: {
+      type: DataTypes.STRING,
+      allowNull: true
     }
   },
   {
@@ -28,5 +36,4 @@ Permission.init(
   }
 )
 
-
-module.exports = Permission
+module.exports = Address

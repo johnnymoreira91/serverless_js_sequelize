@@ -2,6 +2,7 @@ const { DataTypes, Model } = require('sequelize');
 const database = require('./BaseModel');
 const bcrypt = require('bcryptjs')
 const Permission = require('./Permission');
+const Address = require('./Address');
 
 class User extends Model { }
 
@@ -62,9 +63,16 @@ User.init(
 )
 
 Permission.hasMany(User, {
-  foreignKey: 'level',
-  as: 'Permission'
+  sourceKey: 'level',
+  foreignKey: 'permissionLevel',
+  as: 'Permissions'
 })
+
+// Address.hasMany(User, {
+//   foreignKey: 'id',
+//   as: 'addressId'
+// })
+
 
 User.addHook(
   'beforeSave',
