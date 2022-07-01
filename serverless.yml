@@ -27,3 +27,10 @@ functions:
       - httpApi:
           path: /
           method: get
+
+  seed:
+    handler: functions/seed.handler
+    events:
+      - httpApi:
+          path: /seed
+          method: get

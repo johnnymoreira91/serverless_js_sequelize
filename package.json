@@ -13,6 +13,8 @@
     "serverless-offline": "^8.8.0"
   },
   "dependencies": {
-    "redis": "^4.1.1"
+    "mysql2": "^2.3.3",
+    "redis": "^4.1.1",
+    "sequelize": "^6.21.2"
   }
 }
