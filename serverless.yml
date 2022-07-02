@@ -27,10 +27,21 @@ functions:
       - httpApi:
           path: /
           method: get
-
   seed:
     handler: functions/seed.handler
     events:
       - httpApi:
           path: /seed
+          method: get  
+  createUser:
+    handler: functions/user/create.handler
+    events:
+      - httpApi:
+          path: /user
+          method: post
+  list:
+    handler: functions/user/list.handler
+    events:
+      - httpApi:
+          path: /user
           method: get
