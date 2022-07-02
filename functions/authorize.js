@@ -15,12 +15,14 @@ exports.handler = function (event, context, callback) {
     const token = event.authorizationToken.replace('Bearer ', '')
     const decoded = jwt.verify(token, process.env.SECRET);
     const user = decoded;
+    console.log(user)
 
     const isAllowed = authorizeUser(event.resource, event.methodArn);
     const effect = isAllowed ? 'Allow' : 'Deny';
     const userId = user.login;
+    const permissionLevel = user.permissionLevel;
     const authorizerContext = { user: JSON.stringify(user) }
-    const policyDocument = generatePolicy(userId, effect, event.methodArn, authorizerContext);
+    const policyDocument = generatePolicy(userId, permissionLevel, effect, event.methodArn, authorizerContext);
     callback(null, policyDocument);
   } catch (error) {
     console.error('error authorizer', error)
@@ -29,7 +31,7 @@ exports.handler = function (event, context, callback) {
 };
 
 // Help function to generate an IAM policy
-var generatePolicy = function (principalId, effect, resource) {
+var generatePolicy = function (principalId, permissionLevel, effect, resource) {
   var authResponse = {};
   
   authResponse.principalId = principalId;
@@ -49,7 +51,8 @@ var generatePolicy = function (principalId, effect, resource) {
   authResponse.context = {
     "stringKey": "stringval",
     "numberKey": 123,
-    "booleanKey": true
+    "booleanKey": true,
+    "permissionLevel": permissionLevel
   };
   return authResponse;
 }

@@ -3,7 +3,21 @@ const User = require('../../models/User')
 const { setCache, getCache } = require('../cache')
 
 module.exports.handler = async (event) => {
+  const hasPermissionLevel = event.requestContext.authorizer.permissionLevel
+  console.log(hasPermissionLevel)
   try {
+    if (hasPermissionLevel < 1) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify(
+          {
+            message: 'User Doenst have permission to do it'
+          },
+          null,
+          2
+        ),
+      };
+    }
     const data = await getCache('listUsers')
     if (!data) {
       const list = await User.findAll()

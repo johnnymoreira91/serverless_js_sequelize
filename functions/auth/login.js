@@ -4,11 +4,29 @@ const User = require('../../models/User');
 const { setCache, getCache } = require('../cache')
 
 module.exports.handler = async (event) => {
+  /**
+    * @type {{
+     * email: string,
+     * password: string
+     * }}
+  */
   const body = JSON.parse(event.body);
   const { email, password } = body;
   try {
     const data = await getCache(`${email}&&${password}`)
     if (!data) {
+      /**
+    * @type {{
+      * firstName: string,
+       * lastName: string,
+       * password: string,
+       * username: string
+       * email: string,
+       * active: boolean,
+       * superUser: boolean,
+       * permissionLevel: number
+       * }}
+       */
       const user = await User.findOne({
         where: { email: email }
       })
@@ -30,7 +48,10 @@ module.exports.handler = async (event) => {
         }
       }
       const accessToken = jwt.sign(
-        { login: user.id },
+        {
+          login: user.id,
+          permissionLevel: user.permissionLevel
+        },
         process.env.SECRET,
         { expiresIn: 86400 },
       );
