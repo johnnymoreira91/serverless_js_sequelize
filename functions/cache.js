@@ -1,4 +1,5 @@
 const redis = require("redis");
+const PREFIX = '__PREFIX'
 
 // const client = redis.createClient({
 //   url: process.env.REDIS_URL,
