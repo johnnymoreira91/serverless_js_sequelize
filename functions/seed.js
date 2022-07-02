@@ -9,12 +9,12 @@ module.exports.handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false
   try {
     // await database.connection.query(`CREATE DATABASE ourBank2;`)
-    await database.connection.drop({force: true})
+    await database.connection.drop()
     await database.connection.sync()
-    await Permission.sync()
-    await Address.sync({force: true})
-    await User.sync({force: true})
-    await Status.sync()
+    // await Address.sync()
+    // await Permission.sync()
+    // await User.sync()
+    // await Status.sync()
 
     await Permission.create({
       name: 'User',

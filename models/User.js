@@ -62,18 +62,6 @@ User.init(
   }
 )
 
-Permission.hasMany(User, {
-  sourceKey: 'level',
-  foreignKey: 'permissionLevel',
-  as: 'Permissions'
-})
-
-// Address.hasMany(User, {
-//   foreignKey: 'id',
-//   as: 'addressId'
-// })
-
-
 User.addHook(
   'beforeSave',
   async (user) => {
