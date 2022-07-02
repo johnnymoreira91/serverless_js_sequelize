@@ -29,10 +29,4 @@ Permission.init(
   }
 )
 
-Permission.hasMany(User, {
-  sourceKey: 'level',
-  foreignKey: 'permissionLevel',
-  as: 'PermissionsId'
-})
-
 module.exports = Permission
