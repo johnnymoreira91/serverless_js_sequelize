@@ -36,4 +36,6 @@ Address.init(
   }
 )
 
+// User.belongsToMany(Address)
+
 module.exports = Address

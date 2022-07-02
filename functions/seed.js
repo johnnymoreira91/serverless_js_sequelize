@@ -4,11 +4,13 @@ const database = require('../models/BaseModel');
 const Permission = require('../models/Permission');
 const Status = require('../models/Status');
 const User = require('../models/User');
+const {flushCache} = require('./cache')
 
 module.exports.handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false
   try {
     // await database.connection.query(`CREATE DATABASE ourBank2;`)
+    await flushCache()
     await database.connection.drop()
     await database.connection.sync()
     // await Address.sync()
@@ -45,13 +47,21 @@ module.exports.handler = async (event, context) => {
       level: 6
     })
 
+    const address = await Address.create({
+      zipcode: '00000-000',
+      street: 'Manoel Leiroz',
+      number: '210',
+      complement: 'B-137'
+    })
+
     await User.create({
       firstName: 'Johnny',
       lastName: 'Moreira',
       email: 'johnnymoreira91@hotmail.com',
       password: 'teste',
       permissionLevel: 1,
-      username: 'teste'
+      username: 'teste',
+      addressId: address.id
     })
 
     const status = await Status.create({

@@ -15,7 +15,6 @@ exports.handler = function (event, context, callback) {
     const token = event.authorizationToken.replace('Bearer ', '')
     const decoded = jwt.verify(token, process.env.SECRET);
     const user = decoded;
-    console.log(user)
 
     const isAllowed = authorizeUser(event.resource, event.methodArn);
     const effect = isAllowed ? 'Allow' : 'Deny';

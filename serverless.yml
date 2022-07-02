@@ -56,3 +56,10 @@ functions:
           path: /user
           method: get
           authorizer: authorize
+  getUserById:
+    handler: functions/user/getById.handler
+    events:
+      - http:
+          path: /user/{id}
+          method: get
+          authorizer: authorize

@@ -53,7 +53,7 @@ User.init(
           msg: 'invalid email'
         }
       }
-    },
+    }
   },
   {
     sequelize: database.connection,

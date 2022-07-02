@@ -16,12 +16,13 @@ class Database {
       dialectModule: require('mysql2'),
       password: process.env.DATABASE_PASSWORD,
       logging: false,
+      warning: false,
       pool: {
         max: 1,
         min: 0,
         idle: 0,
         acquire: 3000,
-        evict: 10
+        evict: 10,
       }
     })
   }

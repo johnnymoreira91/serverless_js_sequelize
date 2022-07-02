@@ -1,26 +1,23 @@
 "use strict";
+const Address = require('../../models/Address');
+const Permission = require('../../models/Permission');
 const User = require('../../models/User')
 const { setCache, getCache } = require('../cache')
 
 module.exports.handler = async (event) => {
-  const hasPermissionLevel = event.requestContext.authorizer.permissionLevel
+  const { id } = event.pathParameters;
   try {
-    if (hasPermissionLevel < 1) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify(
-          {
-            message: 'User Doenst have permission to do it'
-          },
-          null,
-          2
-        ),
-      };
-    }
-    const data = await getCache('listUsers')
+    const data = await getCache(`listUsers:${id}`)
     if (!data) {
-      const list = await User.findAll()
-      await setCache('listUsers', list, 30)
+        const list = await User.findOne({
+            where: {id: id},
+            include: {
+              all: true
+            }
+        })
+      // const list = await User.findByPk(id)
+      list.passwordHash = null
+      // await setCache(`listUsers:${id}`, list, 30)
       return {
         statusCode: 200,
         body: JSON.stringify(
@@ -43,6 +40,7 @@ module.exports.handler = async (event) => {
       ),
     };
   } catch (error) {
+    console.log(error)
     return {
       statusCode: 500,
       body: JSON.stringify(
