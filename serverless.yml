@@ -10,6 +10,10 @@ plugins:
   - serverless-dotenv-plugin
   - serverless-offline
 
+# serverless-offline:
+#     noPrependStageInUrl: true
+#     noAuth: true
+
 provider:
   name: aws
   region: us-east-1
@@ -24,24 +28,31 @@ functions:
   hello:
     handler: handler.hello
     events:
-      - httpApi:
+      - http:
           path: /
           method: get
   seed:
     handler: functions/seed.handler
     events:
-      - httpApi:
+      - http:
           path: /seed
           method: get  
+  login:
+    handler: functions/auth/login.handler
+    events:
+      - http:
+          path: /login
+          method: post
   createUser:
     handler: functions/user/create.handler
     events:
-      - httpApi:
+      - http:
           path: /user
           method: post
   list:
     handler: functions/user/list.handler
     events:
-      - httpApi:
+      - http:
           path: /user
           method: get
+          authorizer: authorize
