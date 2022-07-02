@@ -62,6 +62,10 @@ User.init(
   }
 )
 
+Address.hasMany(User, {
+  foreignKey: 'addressId',
+  as: 'address'
+})
 Permission.hasMany(User, {
   sourceKey: 'level',
   foreignKey: 'permissionLevel',
