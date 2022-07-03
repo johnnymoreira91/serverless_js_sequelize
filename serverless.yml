@@ -19,6 +19,50 @@ provider:
   region: us-east-1
   runtime: nodejs14.x
   timeout: 10
+  apiGateway:
+    binaryMediaTypes:
+      - 'multipart/form-data'
+
+resources:
+  Resources:
+    bankuploaduser:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: bankuploaduser
+        AccessControl: PublicRead
+    UploadRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: upload-policy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:PutObject
+                    - s3:PutObjectAcl
+                  Resource:
+                    !Sub
+                      - "arn:aws:s3:::${BucketName}/*"
+                      - {BucketName: !Ref bankuploaduser}
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource:
+                    Fn::Sub:
+                      - arn:aws:logs:${Region}:${AccountId}:log-group:/aws/lambda/*:*:*
+                      - { Region: !Ref AWS::Region, AccountId: !Ref AWS::AccountId }
 
 functions:
 
@@ -62,4 +106,14 @@ functions:
       - http:
           path: /user/{id}
           method: get
+          authorizer: authorize
+  uploadDocsUser:
+    handler: functions/user/uploadDoc.handler
+    role: UploadRole
+    environment:
+      BUCKET: modusland${opt:stage, 'dev'}
+    events:
+      - http:
+          path: /user/file/upload
+          method: post
           authorizer: authorize

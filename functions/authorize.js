@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authorizeUser = (userScopes, methodArn) => {
+  // console.log('methodossss', userScopes, methodArn)
   const hasValidScope = methodArn.endsWith(userScopes);
   return hasValidScope;
 };
@@ -16,7 +17,7 @@ exports.handler = function (event, context, callback) {
     const decoded = jwt.verify(token, process.env.SECRET);
     const user = decoded;
 
-    const isAllowed = authorizeUser(event.resource, event.methodArn);
+    const isAllowed = true // authorizeUser(event.requestContext.resourcePath, event.methodArn);
     const effect = isAllowed ? 'Allow' : 'Deny';
     const userId = user.login;
     const permissionLevel = user.permissionLevel;
