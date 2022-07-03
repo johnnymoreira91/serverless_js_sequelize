@@ -1,5 +1,7 @@
 "use strict";
 const Address = require('../models/Address');
+const Bank = require('../models/Bank');
+const BankBranch = require('../models/BankBranch');
 const database = require('../models/BaseModel');
 const Permission = require('../models/Permission');
 const Status = require('../models/Status');
@@ -12,11 +14,13 @@ module.exports.handler = async (event, context) => {
     // await database.connection.query(`CREATE DATABASE ourBank2;`)
     await flushCache()
     await database.connection.drop()
-    await database.connection.sync()
+    await database.connection.sync({force: true})
     // await Address.sync()
     // await Permission.sync()
     // await User.sync()
     // await Status.sync()
+    // await Bank.sync()
+    // await BankBranch.sync()
 
     await Permission.create({
       name: 'User',
@@ -62,6 +66,10 @@ module.exports.handler = async (event, context) => {
       permissionLevel: 1,
       username: 'teste',
       addressId: address.id
+    })
+
+    await Bank.create({
+      name: 'ourBank'
     })
 
     const status = await Status.create({
