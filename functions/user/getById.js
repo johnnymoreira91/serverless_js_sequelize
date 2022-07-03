@@ -8,24 +8,30 @@ module.exports.handler = async (event) => {
   try {
     const data = await getCache('listUsers')
     if (!data) {
-      const list = await User.findByPk(id)
-      // const list = await database.connection.query(`
-      // select 
-      // User.id,
-      // userId,
-      // firstName,
-      // lastName,
-      // superUser,
-      // active,
-      // username,
-      // email,
-      // Permission.level,
-      // Permission.name
-      // from User
-      // inner join
-      // Permission on Permission.level = User.permissionLevel
-      // `)
-      // console.log(list, 'listttt')
+      // const list = await User.findByPk(id)
+      const [results, metadata] = await database.connection.query(`
+      SELECT
+        User.id,
+        userId,
+        firstName,
+        lastName,
+        superUser,
+        active,
+        username,
+        email,
+        Permission.level as permissionLevel,
+        Permission.name as permissionName,
+        Address.zipcode,
+        Address.street,
+        Address.number,
+        Address.complement
+      FROM
+        User
+      INNER JOIN Permission ON Permission.level = User.permissionLevel
+      INNER JOIN Address ON Address.id = User.addressId
+      `)
+      const list = results
+      console.log(results, 'listttt')
       await setCache('listUsers', list, 30)
       return {
         statusCode: 200,
