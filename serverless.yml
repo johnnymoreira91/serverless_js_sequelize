@@ -75,24 +75,32 @@ functions:
       - http:
           path: /
           method: get
+          cors:
+            origin: '*'
   seed:
     handler: functions/seed.handler
     events:
       - http:
           path: /seed
           method: get  
+          cors:
+            origin: '*'
   login:
     handler: functions/auth/login.handler
     events:
       - http:
           path: /login
           method: post
+          cors:
+            origin: '*'
   createUser:
     handler: functions/user/create.handler
     events:
       - http:
           path: /user
           method: post
+          cors:
+            origin: '*'
   list:
     handler: functions/user/list.handler
     events:
@@ -100,6 +108,8 @@ functions:
           path: /user
           method: get
           authorizer: authorize
+          cors:
+            origin: '*'
   getUserById:
     handler: functions/user/getById.handler
     events:
@@ -107,6 +117,17 @@ functions:
           path: /user/{id}
           method: get
           authorizer: authorize
+          cors:
+            origin: '*'
+  updateUser:
+    handler: functions/user/update.handler
+    events:
+      - http:
+          path: /user/{id}
+          method: put
+          authorizer: authorize
+          cors:
+            origin: '*'
   uploadDocsUser:
     handler: functions/user/uploadDoc.handler
     role: UploadRole
@@ -117,3 +138,5 @@ functions:
           path: /user/file/upload
           method: post
           authorizer: authorize
+          cors:
+            origin: '*'

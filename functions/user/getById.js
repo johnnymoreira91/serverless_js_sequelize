@@ -37,7 +37,7 @@ module.exports.handler = async (event) => {
         statusCode: 200,
         body: JSON.stringify(
           {
-            list: list
+            data: list
           },
           null,
           2
@@ -48,7 +48,7 @@ module.exports.handler = async (event) => {
       statusCode: 200,
       body: JSON.stringify(
         {
-          list: data
+          data: data
         },
         null,
         2
