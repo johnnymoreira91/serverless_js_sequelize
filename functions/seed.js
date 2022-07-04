@@ -22,55 +22,55 @@ module.exports.handler = async (event, context) => {
     // await Bank.sync()
     // await BankBranch.sync()
 
-    await Permission.create({
-      name: 'User',
-      level: 0
-    })
-    await Permission.create({
-      name: 'Func',
-      level: 1
-    })
-    await Permission.create({
-      name: 'Func2',
-      level: 2
-    })
-    await Permission.create({
-      name: 'Manager',
-      level: 3
-    })
-    await Permission.create({
-      name: 'CEO',
-      level: 4
-    })
-    await Permission.create({
-      name: 'PO',
-      level: 5
-    })
-    await Permission.create({
-      name: 'Dev',
-      level: 6
-    })
+    // await Permission.create({
+    //   name: 'User',
+    //   level: 0
+    // })
+    // await Permission.create({
+    //   name: 'Func',
+    //   level: 1
+    // })
+    // await Permission.create({
+    //   name: 'Func2',
+    //   level: 2
+    // })
+    // await Permission.create({
+    //   name: 'Manager',
+    //   level: 3
+    // })
+    // await Permission.create({
+    //   name: 'CEO',
+    //   level: 4
+    // })
+    // await Permission.create({
+    //   name: 'PO',
+    //   level: 5
+    // })
+    // await Permission.create({
+    //   name: 'Dev',
+    //   level: 6
+    // })
 
-    const address = await Address.create({
-      zipcode: '00000-000',
-      street: 'Manoel Leiroz',
-      number: '210',
-      complement: 'B-137'
-    })
+    // const address = await Address.create({
+    //   zipcode: '00000-000',
+    //   street: 'Manoel Leiroz',
+    //   number: '210',
+    //   complement: 'B-137'
+    // })
 
-    await User.create({
-      firstName: 'Johnny',
-      lastName: 'Moreira',
-      email: 'johnnymoreira91@hotmail.com',
-      password: 'teste',
-      permissionLevel: 1,
-      username: 'teste',
-      addressId: address.id
-    })
+    // await User.create({
+    //   firstName: 'Johnny',
+    //   lastName: 'Moreira',
+    //   email: 'johnnymoreira91@hotmail.com',
+    //   password: 'teste',
+    //   permissionLevel: 1,
+    //   username: 'teste',
+    //   addressId: address.id
+    // })
 
-    await Bank.create({
-      name: 'ourBank'
-    })
+    // await Bank.create({
+    //   name: 'ourBank'
+    // })
 
     const status = await Status.create({
       status: 'Server ON'

@@ -1,6 +1,5 @@
 const { DataTypes, Model } = require('sequelize');
 const database = require('./BaseModel');
-const User = require('./User');
 
 class Permission extends Model { }
 
