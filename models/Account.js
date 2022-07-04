@@ -39,19 +39,18 @@ Account.init(
     timestamps: true
   }
 )
-
+User.hasMany(Account, {
+  foreignKey: 'userId', 
+  as: 'userAccount'
+})
 BankBranch.hasMany(Account, {
   // sourceKey: 'number',
   foreignKey: 'agencyId',
   as: 'bankBranchAccount'
 })
-// User.hasMany(Account, {
-//   foreignKey: 'userId', 
-//   as: 'userAccount'
-// })
-// Account.belongsTo(User, {
-//   foreignKey: 'accountId',
-//   as: 'accountUser'
-// })
+Account.belongsTo(User, {
+  foreignKey: 'accountId',
+  as: 'accountUser'
+})
 
 module.exports = Account

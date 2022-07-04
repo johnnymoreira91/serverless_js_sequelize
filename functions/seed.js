@@ -1,4 +1,5 @@
 "use strict";
+const Account = require('../models/Account');
 const Address = require('../models/Address');
 const Bank = require('../models/Bank');
 const BankBranch = require('../models/BankBranch');
@@ -15,12 +16,13 @@ module.exports.handler = async (event, context) => {
     await flushCache()
     await database.connection.drop()
     await database.connection.sync({force: true})
-    // await Address.sync()
-    // await Permission.sync()
-    // await User.sync()
-    // await Status.sync()
-    // await Bank.sync()
-    // await BankBranch.sync()
+    await Address.sync()
+    await Permission.sync()
+    await User.sync()
+    await Status.sync()
+    await Bank.sync()
+    await BankBranch.sync()
+    await Account.sync()
 
     // await Permission.create({
     //   name: 'User',
